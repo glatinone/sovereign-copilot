@@ -1,0 +1,44 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+
+# Virtual environments
+.venv/
+venv/
+ENV/
+env/
+
+# Environment and secrets (CRITICAL for hackathon rules)
+.env
+.env.*
+*.age
+secrets/
+
+# Databases & local state
+*.db
+*.sqlite
+*.sqlite3
+.sovereign/
+
+# Testing
+.pytest_cache/
+.coverage
+htmlcov/

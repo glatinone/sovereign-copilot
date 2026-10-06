@@ -1,0 +1,32 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "sovereign-copilot"
+version = "0.1.0"
+description = "A sovereign engineering copilot with temporal architectural memory and privacy-first local governance, powered by NVIDIA Nemotron on Nebius Token Factory."
+readme = "README.md"
+requires-python = ">=3.10"
+license = "MIT"
+authors = [
+    { name = "Kiell Tampubolon" }
+]
+dependencies = [
+    "httpx>=0.27.0",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=8.0.0",
+]
+
+[project.scripts]
+sovereign = "sovereign.cli:main"
+
+[tool.hatch.build.targets.wheel]
+packages = ["sovereign"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+python_files = ["test_*.py"]
