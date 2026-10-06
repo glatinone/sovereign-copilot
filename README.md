@@ -1,8 +1,16 @@
 # Sovereign Engineering Copilot
 
+[![CI](https://github.com/glatinone/sovereign-copilot/actions/workflows/ci.yml/badge.svg)](https://github.com/glatinone/sovereign-copilot/actions/workflows/ci.yml)
+[![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
+[![Python 3.10+](https://img.shields.io/badge/Python-3.10%2B-blue.svg)](pyproject.toml)
+[![Live Demo](https://img.shields.io/badge/Demo-Interactive%20Showcase-brightgreen)](https://glatinone.github.io/sovereign-copilot/)
+
 > A private, autonomous software engineering copilot with Temporal Architectural Memory and zero-leakage local governance, powered by NVIDIA Nemotron on Nebius Token Factory.
 
 Submitted to the **Nebius x NVIDIA Global AI Hackathon** (Personal AI Track).
+
+**Live Interactive Showcase**: [https://glatinone.github.io/sovereign-copilot/](https://glatinone.github.io/sovereign-copilot/)  
+**Technical Architecture Spec**: [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md)
 
 ---
 
