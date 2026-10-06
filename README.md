@@ -64,7 +64,7 @@ Submitted to the **Nebius x NVIDIA Global AI Hackathon** (Personal AI Track).
 ### 1. Installation
 
 ```bash
-git clone https://github.com/your-username/sovereign-copilot.git
+git clone https://github.com/glatinone/sovereign-copilot.git
 cd sovereign-copilot
 pip install -e .
 ```
