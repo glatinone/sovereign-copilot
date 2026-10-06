@@ -20,7 +20,7 @@ class PrivacySanitizer:
             (
                 "KEY",
                 re.compile(
-                    r"(?:api[_-]?key|secret|token|password|auth)[\s:=]+['\"]?([a-zA-Z0-9_\-\.]{16,})['\"]?",
+                    r"(?:api[_-]?key|secret|token|password|pass|pwd|auth)[\s:=]+['\"]?([a-zA-Z0-9_\-\.]{16,})['\"]?",
                     re.IGNORECASE,
                 ),
             ),

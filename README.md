@@ -55,6 +55,9 @@ Submitted to the **Nebius x NVIDIA Global AI Hackathon** (Personal AI Track).
 - **Local Privacy Sanitizer**: High-entropy API keys, passwords, bearer tokens, internal RFC1918 IPs, and credentials are pseudonymized before prompts leave the local machine.
 - **Temporal Architectural Memory**: Tracks active Architectural Decision Records (ADRs) with validity timestamps, relevance scoring, and temporal decay. Automatically flags and excludes superseded decisions.
 - **NVIDIA Nemotron via Nebius Token Factory**: Seamlessly offloads complex reasoning to NVIDIA Nemotron models hosted on Nebius high-performance open GPU infrastructure.
+- **Autonomous Self-Healing Refactoring**: Test-driven loop that applies patches, validates test suites, and autonomously repairs failed attempts up to N retries while preserving ADR constraints.
+- **Tavily Live Knowledge Search**: Dynamically retrieves official framework documentation, architecture patterns, and CVE advisories to ground reasoning.
+- **Model Context Protocol (MCP) Server**: Exposes memory, sanitization, and test runner tools over standard MCP JSON-RPC protocol for Claude Desktop, Cursor, and Hermes Agent.
 - **Controlled Local Tool Execution**: Generates and inspects patches locally, running test suites in isolated subprocesses before changes are finalized.
 
 ---
@@ -103,6 +106,34 @@ sovereign memory list
 #### Ask Copilot to Reason on Code with Memory & Privacy
 ```bash
 sovereign ask "Refactor our payment handling pipeline to add batch retry logic."
+```
+
+#### Autonomous Self-Healing Refactor with Test Verification
+```bash
+sovereign refactor payment_service.py \
+  --prompt "Add retry logic with exponential backoff" \
+  --test-cmd "pytest test_payment.py" \
+  --max-retries 3
+```
+
+#### Visual Memory Graph & Relationship Tree
+```bash
+sovereign graph
+```
+
+#### Local Privacy & Secret Leak Audit
+```bash
+sovereign audit
+```
+
+#### Framework Best Practice Search (Tavily)
+```bash
+sovereign search "distributed payment idempotency redis"
+```
+
+#### Run as Model Context Protocol (MCP) Server
+```bash
+sovereign mcp
 ```
 
 #### Run Automated Tests

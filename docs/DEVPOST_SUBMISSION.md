@@ -21,8 +21,11 @@ Sovereign Engineering Copilot is a local-first developer assistant that:
 1. **Guarantees Local Data Sovereignty**: Operates an automated Privacy Sanitizer that scrubs high-entropy API tokens, credentials, connection strings, internal IPs, and emails before any prompt leaves the local machine.
 2. **Maintains Temporal Architectural Memory**: Implements a temporal knowledge graph (backed by local SQLite) that tracks Architectural Decision Records (ADRs) with validity timestamps, relevance scoring, and temporal decay.
 3. **Prevents Architectural Drift & Regressions**: Automatically injects active historical architectural constraints into the system prompt and excludes outdated or superseded decisions.
-4. **Leverages NVIDIA Nemotron on Nebius Token Factory**: Offloads complex architectural synthesis and refactoring planning to NVIDIA Llama-3.1-Nemotron-70B running on Nebius high-performance open cloud infrastructure.
-5. **Executes Safe Local Tools & Verification**: Generates code patches locally, inspects diffs, and automatically validates changes against the local unit test suite before finalizing changes.
+4. **Autonomous Self-Healing Refactoring**: Employs an iterative test-driven repair loop (`sovereign refactor`) that applies candidate code patches, runs the local test suite, and autonomously iterates if tests fail while strictly adhering to ADRs.
+5. **Leverages NVIDIA Nemotron on Nebius Token Factory**: Offloads complex architectural synthesis and refactoring planning to NVIDIA Llama-3.1-Nemotron-70B running on Nebius high-performance open cloud infrastructure.
+6. **Live Best Practice Grounding via Tavily**: Integrates Tavily Search API to dynamically query official framework documentation and security advisories (entering the 'Best Use of Tavily' bounty).
+7. **Model Context Protocol (MCP) Server**: Provides standard JSON-RPC stdio server endpoints (`sovereign mcp`) so Claude Desktop, Cursor, and Hermes Agent can leverage Sovereign Copilot's memory and privacy guardrails.
+8. **Visual Graph & Security Audit**: Inspects the entire codebase for exposed secrets (`sovereign audit`) and renders the visual tree of active vs superseded ADRs (`sovereign graph`).
 
 ---
 
@@ -72,6 +75,8 @@ Sovereign Engineering Copilot is a local-first developer assistant that:
 - python
 - nebius-token-factory
 - nvidia-nemotron
+- tavily-search
+- model-context-protocol
 - sqlite
 - pytest
 - open-source-mit

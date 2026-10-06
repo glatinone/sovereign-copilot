@@ -2,8 +2,13 @@
 
 import argparse
 import sys
+from pathlib import Path
 from sovereign.config import load_config
 from sovereign.agent.copilot import SovereignCopilot
+from sovereign.agent.self_healing import SelfHealingEngine
+from sovereign.tools.tavily_search import TavilySearchTool
+from sovereign.mcp_server import SovereignMCPServer
+from sovereign.privacy.sanitizer import PrivacySanitizer
 
 
 def main():
@@ -20,6 +25,27 @@ def main():
     ask_parser = subparsers.add_parser("ask", help="Ask copilot to reason on a task with temporal memory")
     ask_parser.add_argument("prompt", type=str, help="Engineering task or question")
     ask_parser.add_argument("--test", action="store_true", help="Auto-run local test suite after reasoning")
+
+    # refactor command (autonomous self-healing)
+    refactor_parser = subparsers.add_parser("refactor", help="Autonomous self-healing refactoring loop")
+    refactor_parser.add_argument("file", type=str, help="Target code file to refactor")
+    refactor_parser.add_argument("--prompt", required=True, type=str, help="Refactoring instructions")
+    refactor_parser.add_argument("--test-cmd", default="pytest", type=str, help="Command to run tests (default: pytest)")
+    refactor_parser.add_argument("--max-retries", default=3, type=int, help="Maximum self-healing attempts")
+
+    # graph command
+    subparsers.add_parser("graph", help="Render visual graph of active vs superseded ADRs")
+
+    # audit command
+    audit_parser = subparsers.add_parser("audit", help="Audit local codebase for secrets and compliance")
+    audit_parser.add_argument("--path", default=".", type=str, help="Directory to scan")
+
+    # search command (Tavily)
+    search_parser = subparsers.add_parser("search", help="Search official framework best practices via Tavily")
+    search_parser.add_argument("query", type=str, help="Search query")
+
+    # mcp command
+    subparsers.add_parser("mcp", help="Run Model Context Protocol (MCP) server over stdio")
 
     # memory command
     mem_parser = subparsers.add_parser("memory", help="Manage Temporal Architectural Memory")
@@ -82,7 +108,7 @@ def main():
                 print(f"Marked previous ADR #{args.supersedes} as superseded.")
 
     elif args.command == "ask":
-        print(f"Executing task with Sovereign Copilot...")
+        print("Executing task with Sovereign Copilot...")
         res = copilot.execute_engineering_task(args.prompt, auto_test=args.test)
         print(f"Local Privacy Redactions: {res['redactions_count']} sensitive items sanitized")
         print(f"Temporal ADRs Injected: {res['active_adrs_applied']}")
@@ -91,6 +117,81 @@ def main():
         if res.get("test_result"):
             t_res = res["test_result"]
             print(f"Test Execution: {'PASSED' if t_res['passed'] else 'FAILED'}")
+
+    elif args.command == "refactor":
+        engine = SelfHealingEngine(config)
+        print(f"Starting autonomous refactoring loop on: {args.file}")
+        res = engine.autonomous_refactor(
+            target_file=args.file,
+            task_prompt=args.prompt,
+            test_command=args.test_cmd,
+            max_attempts=args.max_retries,
+        )
+        if res["success"]:
+            print(f"SUCCESS: Refactor completed and verified in {res['attempts']} attempt(s).")
+            print(f"Active ADRs Enforced: {res['active_adrs_applied']}")
+            print(f"Sensitive Tokens Redacted: {res['redactions_count']}")
+        else:
+            print(f"FAILED: Tests could not be satisfied after {res['attempts']} attempt(s).")
+            print("Changes were automatically rolled back to preserve codebase integrity.")
+
+    elif args.command == "graph":
+        with copilot.memory._connection() as conn:
+            cursor = conn.cursor()
+            cursor.execute("""
+                SELECT id, title, status, superseded_by, created_at
+                FROM architectural_decisions
+                ORDER BY id ASC
+            """)
+            all_adrs = cursor.fetchall()
+
+        if not all_adrs:
+            print("No ADRs recorded in memory graph yet.")
+            return
+
+        print("=== TEMPORAL ARCHITECTURAL MEMORY GRAPH ===")
+        for adr in all_adrs:
+            status_badge = "[ACTIVE]" if adr["status"] == "active" else f"[SUPERSEDED -> #{adr['superseded_by']}]"
+            print(f"  #{adr['id']} {status_badge:<25} {adr['title']}")
+        print()
+
+    elif args.command == "audit":
+        sanitizer = PrivacySanitizer()
+        scan_dir = Path(args.path)
+        violations = []
+        total_scanned = 0
+
+        for file_path in scan_dir.rglob("*.py"):
+            if ".sovereign" in str(file_path) or ".venv" in str(file_path):
+                continue
+            total_scanned += 1
+            content = file_path.read_text(encoding="utf-8", errors="ignore")
+            _, count = sanitizer.sanitize(content)
+            if count > 0:
+                violations.append((file_path, count))
+
+        print(f"=== SOVEREIGN PRIVACY & SECURITY AUDIT ===")
+        print(f"Scanned {total_scanned} source files.")
+        if violations:
+            print(f"WARNING: Found {len(violations)} files with unmasked credentials or secrets:")
+            for p, c in violations:
+                print(f"  - {p} ({c} exposed secrets)")
+        else:
+            print("CLEAN: Zero plaintext secrets or sensitive credentials detected.")
+
+    elif args.command == "search":
+        tool = TavilySearchTool()
+        print(f"Searching verified best practices via Tavily for: '{args.query}'...")
+        res = tool.search(args.query)
+        print(f"\nSummary Answer:\n{res['answer']}\n")
+        if res["results"]:
+            print("Sources:")
+            for r in res["results"]:
+                print(f"  - {r['title']} ({r['url']})")
+
+    elif args.command == "mcp":
+        server = SovereignMCPServer()
+        server.run_stdio()
 
 
 if __name__ == "__main__":
