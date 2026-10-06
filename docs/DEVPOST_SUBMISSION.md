@@ -5,6 +5,9 @@ Hackathon: Nebius x NVIDIA Global AI Hackathon
 Project Name: Sovereign Engineering Copilot
 Tagline: Private, autonomous engineering assistant with Temporal Architectural Memory, powered by NVIDIA Nemotron on Nebius Token Factory.
 
+Working Demo URL: https://glatinone.github.io/sovereign-copilot/
+GitHub Repository: https://github.com/glatinone/sovereign-copilot
+
 ---
 
 ## Inspiration
