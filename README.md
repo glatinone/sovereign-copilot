@@ -10,6 +10,7 @@
 Submitted to the **Nebius x NVIDIA Global AI Hackathon** (Personal AI Track).
 
 **Live Interactive Showcase**: [https://glatinone.github.io/sovereign-copilot/](https://glatinone.github.io/sovereign-copilot/)  
+**Pitch & Demo Video (1:52)**: [https://youtu.be/z8i3hh4c3uk](https://youtu.be/z8i3hh4c3uk)  
 **Technical Architecture Spec**: [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md)
 
 ---

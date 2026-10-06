@@ -7,6 +7,7 @@ Tagline: Private, autonomous engineering assistant with Temporal Architectural M
 
 Working Demo URL: https://glatinone.github.io/sovereign-copilot/
 GitHub Repository: https://github.com/glatinone/sovereign-copilot
+Demo Video (YouTube, public): https://youtu.be/z8i3hh4c3uk
 
 ---
 
